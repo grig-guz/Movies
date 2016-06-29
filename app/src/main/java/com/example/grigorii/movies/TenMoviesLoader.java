@@ -2,7 +2,6 @@ package com.example.grigorii.movies;
 
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.LoaderManager;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -120,6 +119,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
         final String POSTER_URL = "poster_path";
         final String PLOT_OVERVIEW = "overview";
         final String RATING = "vote_average";
+        final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185";
 
         JSONObject movieQuery = new JSONObject(queryResult);
         JSONArray moviesJson = movieQuery.getJSONArray(RESULTS);
@@ -142,7 +142,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
             Movie movie = new Movie(title,
                     plotOverview,
                     rating,
-                    posterUrl);
+                    BASE_IMAGE_URL + posterUrl);
 
             movies[i] = movie;
         }

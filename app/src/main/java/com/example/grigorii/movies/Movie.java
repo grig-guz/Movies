@@ -22,5 +22,35 @@ public class Movie {
         mPosterURL = posterURL;
     }
 
+    public String getTitle() {
+        return mTitle;
+    }
 
+    public void setTitle(String mTitle) {
+        this.mTitle = mTitle;
+    }
+
+    public String getPlotOverview() {
+        return mPlotOverview;
+    }
+
+    public void setPlotOverview(String mPlotOverview) {
+        this.mPlotOverview = mPlotOverview;
+    }
+
+    public float getUserRating() {
+        return mUserRating;
+    }
+
+    public void setUserRating(float mUserRating) {
+        this.mUserRating = mUserRating;
+    }
+
+    public String getPosterURL() {
+        return mPosterURL;
+    }
+
+    public void setPosterURL(String mPosterURL) {
+        this.mPosterURL = mPosterURL;
+    }
 }

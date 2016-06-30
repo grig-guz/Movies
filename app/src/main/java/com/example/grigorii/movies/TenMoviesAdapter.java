@@ -49,7 +49,7 @@ public class TenMoviesAdapter extends ArrayAdapter<Movie> {
     public void setGridData(ArrayList<Movie> moviesList) {
         movies.clear();
         movies.addAll(moviesList);
-        
+
         notifyDataSetChanged();
     }
 }

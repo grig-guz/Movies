@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by grigorii on 28/06/16.
@@ -23,7 +24,7 @@ import java.net.URL;
  * It loads whether 10 most popular movies or 10 movies with highest
  * rating.
  */
-public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
+public class TenMoviesLoader extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
     private static final String LOG_TAG = TenMoviesLoader.class.getSimpleName();
 
@@ -35,8 +36,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
     // Constants for building URL
     public static final String TYPE_POPULAR = "popular";
     public static final String TYPE_TOP_RATED = "top_rated";
-    private static final String APPID_PARAM = "app_id";
-    private static final String APPKEY_PARAM = "app_key";
+    private static final String APPKEY_PARAM = "api_key";
 
     public TenMoviesLoader(TenMoviesAdapter adapter, boolean loadByPopularity) {
         mMoviesAdapter = adapter;
@@ -44,7 +44,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
     }
 
     @Override
-    protected Movie[] doInBackground(Void... params) {
+    protected ArrayList<Movie> doInBackground(Void... params) {
 
         HttpURLConnection urlConnection = null;
 
@@ -55,20 +55,20 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
         try {
 
             final String BASE_URI =
-                    "https://http://api.themoviedb.org/3/movie/";
+                    "http://api.themoviedb.org/3/movie/";
 
             Uri uri = Uri.parse(BASE_URI);
 
             if (mLoadByPopularity) {
-                uri.buildUpon().appendPath(TYPE_POPULAR).build();
-            } else uri.buildUpon().appendPath(TYPE_TOP_RATED).build();
-
-            // TODO: Add your app key
-            uri.buildUpon().appendQueryParameter(APPKEY_PARAM, "ADD APP KEY").build();
+                uri = uri.buildUpon().appendPath(TYPE_POPULAR)
+                        .appendQueryParameter(APPKEY_PARAM, BuildConfig.MOVIES_APP_ID).build();
+            } else uri = uri.buildUpon().appendPath(TYPE_TOP_RATED)
+                    .appendQueryParameter(APPKEY_PARAM, BuildConfig.MOVIES_APP_ID).build();
 
             URL url = new URL(uri.toString());
 
             urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestProperty("Content-Type", "application/json");
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
@@ -99,6 +99,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
             queryResult = builder.toString();
 
             return getMoviesDataFromJson(queryResult);
+
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -111,7 +112,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
         return null;
     }
 
-    private Movie[] getMoviesDataFromJson(String queryResult) throws JSONException {
+    private ArrayList<Movie> getMoviesDataFromJson(String queryResult) throws JSONException {
 
         // Constants for parsing Movie objects from JSON
         final String RESULTS = "results";
@@ -121,10 +122,11 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
         final String RATING = "vote_average";
         final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185";
 
+
         JSONObject movieQuery = new JSONObject(queryResult);
         JSONArray moviesJson = movieQuery.getJSONArray(RESULTS);
 
-        Movie[] movies = new Movie[10];
+        ArrayList<Movie> movies = new ArrayList<>(10);
 
         for (int i = 0; i < 10; i++) {
             String title;
@@ -144,18 +146,16 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, Movie[]> {
                     rating,
                     BASE_IMAGE_URL + posterUrl);
 
-            movies[i] = movie;
+            movies.add(movie);
         }
 
         return movies;
     }
 
     @Override
-    protected void onPostExecute(Movie[] movies) {
-        mMoviesAdapter.clear();
-        for (Movie movie : movies) {
-            mMoviesAdapter.add(movie);
-        }
+    protected void onPostExecute(ArrayList<Movie> movies) {
+
+        mMoviesAdapter.setGridData(movies);
         super.onPostExecute(movies);
     }
 }

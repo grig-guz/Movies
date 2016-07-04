@@ -14,6 +14,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    final static private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    final static private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
     private void checkPermissions() {
         List<String> permissionList = new ArrayList<>();

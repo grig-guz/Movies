@@ -2,4 +2,11 @@
     <string name="app_name">Movies</string>
     <string name="action_settings">Settings</string>
     <string name="img_grid_item">Movie poster</string>
+    <string name="sort_order">Movie sort order</string>
+    <string name="pref_sort_order_popular" translatable="false">mPopular</string>
+    <string name="pref_sort_order_top10" translatable="false">top10</string>
+    <string name="pref_sort_order_label_popular">Most popular</string>
+    <string name="pref_sort_order_label_top10">Top 10</string>
+    <string name="pref_sort_order_key" translatable="false">sort</string>
+    <string name="title_activity_detail">DetailActivity</string>
 </resources>

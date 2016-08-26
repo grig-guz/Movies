@@ -21,22 +21,19 @@ import java.util.ArrayList;
  * Created by grigorii on 28/06/16.
  *
  * Class for downloading data for 10 movies from OpenMovieDatabase.
- * It loads whether 10 most popular movies or 10 movies with highest
+ * It loads either 10 most popular movies or 10 movies with highest
  * rating.
  */
 public class TenMoviesLoader extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
-    private static final String LOG_TAG = TenMoviesLoader.class.getSimpleName();
-
-    private TenMoviesAdapter mMoviesAdapter;
-
-    // Variable for deciding which kind of movie data to download
-    private boolean mLoadByPopularity;
-
     // Constants for building URL
     public static final String TYPE_POPULAR = "popular";
     public static final String TYPE_TOP_RATED = "top_rated";
+    private static final String LOG_TAG = TenMoviesLoader.class.getSimpleName();
     private static final String APPKEY_PARAM = "api_key";
+    private TenMoviesAdapter mMoviesAdapter;
+    // Variable for deciding which kind of movie data to download
+    private boolean mLoadByPopularity;
 
     public TenMoviesLoader(TenMoviesAdapter adapter, boolean loadByPopularity) {
         mMoviesAdapter = adapter;
@@ -107,7 +104,12 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, ArrayList<Movie>> {
         } catch (JSONException e) {
 
         } finally {
-            urlConnection.disconnect();
+
+            try {
+                urlConnection.disconnect();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

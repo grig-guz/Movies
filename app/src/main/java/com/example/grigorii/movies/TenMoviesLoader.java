@@ -45,9 +45,9 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
         HttpURLConnection urlConnection = null;
 
-        BufferedReader reader = null;
+        BufferedReader reader;
 
-        String queryResult = null;
+        String queryResult;
 
         try {
 
@@ -102,7 +102,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, ArrayList<Movie>> {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
-
+            e.printStackTrace();
         } finally {
 
             try {
@@ -122,7 +122,7 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, ArrayList<Movie>> {
         final String POSTER_URL = "poster_path";
         final String PLOT_OVERVIEW = "overview";
         final String RATING = "vote_average";
-        final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w185";
+        final String BASE_IMAGE_URL = "http://image.tmdb.org/t/p/w500";
 
 
         JSONObject movieQuery = new JSONObject(queryResult);
@@ -134,14 +134,14 @@ public class TenMoviesLoader extends AsyncTask<Void, Void, ArrayList<Movie>> {
             String title;
             String posterUrl;
             String plotOverview;
-            float rating;
+            String rating;
 
             JSONObject movieJson = moviesJson.getJSONObject(i);
 
             title = movieJson.getString(TITLE);
             posterUrl = movieJson.getString(POSTER_URL);
             plotOverview = movieJson.getString(PLOT_OVERVIEW);
-            rating = (float) movieJson.getDouble(RATING);
+            rating = movieJson.getString(RATING);
 
             Movie movie = new Movie(title,
                     plotOverview,

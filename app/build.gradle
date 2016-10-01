@@ -6,12 +6,13 @@ android {
     buildToolsVersion "24.0.0"
 
     defaultConfig {
-        applicationId doExtractStringFromManifest("package")
+        applicationId "com.example.grigorii.movies"
 
         minSdkVersion 18
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
     }
     buildTypes {
         release {
@@ -23,22 +24,9 @@ android {
         it.buildConfigField 'String', 'MOVIES_APP_ID', MoviesAppID
     }
 
-
-}
-
-def doExtractStringFromManifest(name) {
-    def manifestFile = file(android.sourceSets.main.manifest.srcFile)
-    def pattern = Pattern.compile(name + "=\"(\\S+)\"")
-    def matcher = pattern.matcher(manifestFile.getText())
-    matcher.find()
-    return matcher.group(1)
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.google.android.gms:play-services:9.4.0'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:design:24.2.0'

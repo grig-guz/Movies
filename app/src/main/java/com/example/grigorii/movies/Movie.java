@@ -8,12 +8,12 @@ public class Movie {
 
     private String mTitle;
     private String mPlotOverview;
-    private float mUserRating;
+    private String mUserRating;
     private String mPosterURL;
 
     public Movie(String title,
                  String plotOverview,
-                 float userRating,
+                 String userRating,
                  String posterURL) {
 
         mTitle = title;
@@ -38,11 +38,11 @@ public class Movie {
         this.mPlotOverview = mPlotOverview;
     }
 
-    public float getUserRating() {
+    public String getUserRating() {
         return mUserRating;
     }
 
-    public void setUserRating(float mUserRating) {
+    public void setUserRating(String mUserRating) {
         this.mUserRating = mUserRating;
     }
 

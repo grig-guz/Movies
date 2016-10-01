@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 /**
- * Created by grigorii on 28/06/16.
+ * Adapter
  */
 public class TenMoviesAdapter extends ArrayAdapter<Movie> {
 
@@ -52,4 +52,5 @@ public class TenMoviesAdapter extends ArrayAdapter<Movie> {
 
         notifyDataSetChanged();
     }
+
 }
